@@ -30,6 +30,7 @@ export interface IProviderInfo extends IProviderDisplay {
   type: string;
   check: string;
   package?: IProviderPackageOptions;
+  link?: string;
 }
 
 export type RequiredOption = string | string[];
@@ -54,10 +55,12 @@ export interface IProviderDisplayWithConnector extends IProviderDisplay {
 }
 
 export interface IProviderUserOptions {
+  id: string;
   name: string;
   logo: string;
   description: string;
   onClick: () => Promise<void>;
+  error?: string;
 }
 
 export type SimpleFunction = (input?: any) => void;
@@ -84,6 +87,7 @@ export type ThemeColors = {
   secondary: string;
   border: string;
   hover: string;
+  danger: string;
 };
 
 export interface IThemeConfig {

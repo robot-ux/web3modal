@@ -17,6 +17,7 @@ declare global {
     ethereum: any;
     web3: any;
     updateWeb3Modal: any;
+    BinanceChain: any;
   }
 }
 
@@ -186,17 +187,14 @@ export class Modal extends React.Component<IModalProps, IModalState> {
             className={MODAL_CARD_CLASSNAME}
             show={show}
             themeColors={themeColors}
-            maxWidth={userOptions.length < 3 ? 500 : 800}
+            maxWidth={userOptions.length < 3 ? 356 : 700}
             ref={c => (this.mainModalCard = c)}
           >
             {userOptions.map(provider =>
               !!provider ? (
                 <Provider
-                  name={provider.name}
-                  logo={provider.logo}
-                  description={provider.description}
                   themeColors={themeColors}
-                  onClick={provider.onClick}
+                  provider={provider}
                 />
               ) : null
             )}

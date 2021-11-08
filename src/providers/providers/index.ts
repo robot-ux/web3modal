@@ -20,8 +20,11 @@ import DcentWalletLogo from "../logos/dcentwallet.png";
 import BitskiLogo from "../logos/bitski.svg";
 // @ts-ignore
 import FrameLogo from "../logos/frame.svg";
+// @ts-ignore
+import BinanceWalletLogo from '../logos/binance-wallet.svg';
 
 import { IProviderInfo } from "../../helpers";
+import { METAMASK as InjectedMetaMask } from '../injected'
 
 export * from "../injected";
 
@@ -133,3 +136,20 @@ export const FRAME: IProviderInfo = {
   type: "web",
   check: "isFrameNative"
 };
+
+export const METAMASK_WEB: IProviderInfo = {
+  ...InjectedMetaMask,
+  id: "metamask",
+  // name: 'metamask',
+  type: "web",
+  check: 'metamask',
+}
+
+export const BINANCE_WALLET: IProviderInfo = {
+  id: "binancewallet",
+  name: "Binance Wallet",
+  logo: BinanceWalletLogo,
+  type: "web",
+  check: "isBinanceWallet",
+  link: 'https://www.binance.org/en/binance-wallet'
+}

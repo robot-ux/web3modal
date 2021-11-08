@@ -26,7 +26,7 @@ import { EventController } from "./events";
 export class ProviderController {
   public cachedProvider: string = "";
   public shouldCacheProvider: boolean = false;
-  public disableInjectedProvider: boolean = false;
+  public disableInjectedProvider: boolean = true;
 
   private eventController: EventController = new EventController();
   private injectedProvider: IProviderInfo | null = null;
@@ -36,7 +36,6 @@ export class ProviderController {
 
   constructor(opts: IProviderControllerOptions) {
     this.cachedProvider = getLocal(CACHED_PROVIDER_KEY) || "";
-
     this.disableInjectedProvider = opts.disableInjectedProvider;
     this.shouldCacheProvider = opts.cacheProvider;
     this.providerOptions = opts.providerOptions;
@@ -118,6 +117,38 @@ export class ProviderController {
     return false;
   }
 
+  public getErrorMessage(id: string) {
+    const provider = this.getProvider(id);
+
+    if (!provider) {
+      return "Provider is not exsit.";
+    }
+
+    const providerPackageOptions = this.providerOptions[id];
+    if (providerPackageOptions && !providerPackageOptions.package) {
+      return `Install ${provider.name ||
+        "Wallet Extension"} to your browser`;
+    }
+
+    const requiredOptions = provider.package ? provider.package.required : null;
+    if (requiredOptions && requiredOptions.length) {
+      const providedOptions = providerPackageOptions.options;
+      if (providedOptions && Object.keys(providedOptions).length) {
+        const matches = findMatchingRequiredOptions(
+          requiredOptions,
+          providedOptions
+        );
+        if (requiredOptions.length !== matches.length) {
+          return `${requiredOptions} is required`;
+        }
+      } else {
+        return `${requiredOptions} is required`;
+      }
+    }
+
+    return "";
+  }
+
   public getUserOptions = () => {
     const mobile = isMobile();
 
@@ -138,10 +169,11 @@ export class ProviderController {
 
       defaultProviderList.forEach((id: string) => {
         if (id !== INJECTED_PROVIDER_ID) {
-          const result = this.shouldDisplayProvider(id);
-          if (result) {
-            providerList.push(id);
-          }
+          // const result = this.shouldDisplayProvider(id);
+          // if (result) {
+          //   providerList.push(id);
+          // }
+          providerList.push(id);
         }
       });
     }
@@ -152,11 +184,18 @@ export class ProviderController {
       let provider = this.getProvider(id);
       if (typeof provider !== "undefined") {
         const { id, name, logo, connector } = provider;
+        const providerPackageOptions = this.providerOptions[id];
+        if (!providerPackageOptions && id !== INJECTED_PROVIDER_ID) {
+          return;
+        }
+
         userOptions.push({
+          id,
           name,
           logo,
           description: getProviderDescription(provider),
-          onClick: () => this.connectTo(id, connector)
+          onClick: () => this.connectTo(id, connector),
+          error: this.getErrorMessage(id)
         });
       }
     });

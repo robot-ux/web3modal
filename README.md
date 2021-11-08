@@ -39,67 +39,36 @@ _Open a PR to add your project to the list!_
 1. Install Web3Modal NPM package
 
 ```bash
-npm install --save web3modal
+npm install --save @actool/web3modal
 
 # OR
 
-yarn add web3modal
+yarn add @actool/web3modal
 ```
 
-2. Install Provider packages
-
-```js
-/* See Provider Options Section */
-```
-
-3. Then you can add Web3Modal to your Dapp as follows
+2. Then you can add Web3Modal to your Dapp as follows
 
 ```js
 import Web3 from "web3";
-import Web3Modal from "web3modal";
+import Web3Modal from "@actool/web3modal";
 
 const providerOptions = {
-  /* See Provider Options Section */
+  binancewallet: {
+    package: window.BinanceChain,
+  },
+  metamask: {
+    package: window.ethereum,
+  },
 };
 
 const web3Modal = new Web3Modal({
-  network: "mainnet", // optional
-  cacheProvider: true, // optional
-  providerOptions // required
+  cacheProvider: true,
+  providerOptions,
 });
 
 const provider = await web3Modal.connect();
-
 const web3 = new Web3(provider);
 ```
-
-## Using in vanilla JavaScript
-
-You can use the modal from the old fashioned web page JavaScript as well.
-
-[First get a Web3modal bundled JavaScript from Releases](https://github.com/Web3Modal/web3modal/releases).
-
-After including the bundle in your HTML, you can use it on your web page:
-
-```js
-//  You have to refer to default since it was bundled for ESModules
-// but after that the documentation will be the same
-
-const Web3Modal = window.Web3Modal.default;
-const providerOptions = {
-  /* See Provider Options Section */
-};
-
-const web3Modal = new Web3Modal({
-  network: "mainnet", // optional
-  cacheProvider: true, // optional
-  providerOptions // required
-});
-
-const provider = await web3Modal.connect();
-```
-
-[See the full vanilla JavaScript example application](https://github.com/Web3Modal/web3modal-vanilla-js-example).
 
 ## Provider Events
 

@@ -24,7 +24,7 @@ const defaultOpts: ICoreOptions = {
   lightboxOpacity: 0.4,
   theme: themesList.default.name,
   cacheProvider: false,
-  disableInjectedProvider: false,
+  disableInjectedProvider: true,
   providerOptions: {},
   network: ""
 };

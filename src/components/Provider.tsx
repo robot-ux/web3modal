@@ -1,14 +1,16 @@
-import * as React from "react";
-import styled from "styled-components";
+import * as React from 'react'
+import styled from 'styled-components'
 
-import { ThemeColors } from "../helpers";
+import { ThemeColors } from '../helpers'
+import { IProviderUserOptions } from '../helpers/types';
+import { getProviderInfoById } from '../helpers/utils';
 import {
   PROVIDER_WRAPPER_CLASSNAME,
   PROVIDER_CONTAINER_CLASSNAME,
   PROVIDER_ICON_CLASSNAME,
   PROVIDER_NAME_CLASSNAME,
   PROVIDER_DESCRIPTION_CLASSNAME
-} from "../constants";
+} from '../constants'
 
 const SIcon = styled.div`
   width: 45px;
@@ -28,7 +30,7 @@ const SIcon = styled.div`
     width: 8.5vw;
     height: 8.5vw;
   }
-`;
+`
 
 interface IStyedThemeColorOptions {
   themeColors: ThemeColors;
@@ -43,17 +45,17 @@ const SName = styled.div<IStyedThemeColorOptions>`
   @media screen and (max-width: 768px) {
     font-size: 5vw;
   }
-`;
+`
 
 const SDescription = styled.div<IStyedThemeColorOptions>`
   width: 100%;
-  font-size: 18px;
+  font-size: 14px;
   margin: 0.333em 0;
   color: ${({ themeColors }) => themeColors.secondary};
   @media screen and (max-width: 768px) {
     font-size: 4vw;
   }
-`;
+`
 
 const SProviderContainer = styled.div<IStyedThemeColorOptions>`
   transition: background-color 0.2s ease-in-out;
@@ -68,7 +70,7 @@ const SProviderContainer = styled.div<IStyedThemeColorOptions>`
   @media screen and (max-width: 768px) {
     padding: 1vw;
   }
-`;
+`
 
 const SProviderWrapper = styled.div<IStyedThemeColorOptions>`
   width: 100%;
@@ -85,30 +87,32 @@ const SProviderWrapper = styled.div<IStyedThemeColorOptions>`
       background-color: ${({ themeColors }) => themeColors.hover};
     }
   }
-`;
+`
 
 interface IProviderProps {
-  name: string;
-  logo: string;
-  description: string;
   themeColors: ThemeColors;
-  onClick: () => void;
+  provider: IProviderUserOptions;
 }
 
-export function Provider(props: IProviderProps) {
+export function Provider({ provider, themeColors, ...otherProps }: IProviderProps) {
   const {
     name,
     logo,
     description,
-    themeColors,
     onClick,
-    ...otherProps
-  } = props;
+    error,
+    id,
+  } = provider;
+  const isNotInstalled = error?.includes('Install');
+  const _provider = getProviderInfoById(id);
+
   return (
     <SProviderWrapper
       themeColors={themeColors}
       className={PROVIDER_WRAPPER_CLASSNAME}
-      onClick={onClick}
+      onClick={error ? () => {
+        isNotInstalled && _provider.link && (window as any).open(_provider.link)
+      } :onClick}
       {...otherProps}
     >
       <SProviderContainer
@@ -125,9 +129,9 @@ export function Provider(props: IProviderProps) {
           themeColors={themeColors}
           className={PROVIDER_DESCRIPTION_CLASSNAME}
         >
-          {description}
+          {error ? <div style={{ color: themeColors.danger }}>{error}</div> : description}
         </SDescription>
       </SProviderContainer>
     </SProviderWrapper>
-  );
+  )
 }

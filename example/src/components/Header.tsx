@@ -5,6 +5,7 @@ import Blockie from "./Blockie";
 import Banner from "./Banner";
 import { ellipseAddress, getChainData } from "../helpers/utilities";
 import { transitions } from "../styles";
+// import { ConnectButton } from 'web3modal'
 
 const SHeader = styled.div`
   margin-top: -1px;
@@ -92,6 +93,7 @@ const Header = (props: IHeaderProps) => {
       ) : (
         <Banner />
       )}
+      {/* <ConnectButton chainId={chainId} render={null} /> */}
       {address && (
         <SActiveAccount>
           <SBlockie address={address} />

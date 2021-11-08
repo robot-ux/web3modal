@@ -178,13 +178,29 @@ const supportedChains: IChainData[] = [
     }
   },
   {
-    name: "Binance Smart Chain",
+    name: "BSC Mainnet",
     short_name: "bsc",
     chain: "smartchain",
     network: "mainnet",
     chain_id: 56,
     network_id: 56,
-    rpc_url: "https://bsc-dataseed1.defibit.io/",
+    rpc_url: "https://bsc-dataseed1.binance.org:443/",
+    native_currency: {
+      symbol: "BNB",
+      name: "BNB",
+      decimals: "18",
+      contractAddress: "",
+      balance: ""
+    }
+  },
+  {
+    name: "BSC Testnet",
+    short_name: "bsc",
+    chain: "smartchain",
+    network: "testnet",
+    chain_id: 97,
+    network_id: 97,
+    rpc_url: "https://data-seed-prebsc-1-s1.binance.org:8545",
     native_currency: {
       symbol: "BNB",
       name: "BNB",

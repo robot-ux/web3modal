@@ -10,6 +10,8 @@ import mewconnect from "./mewconnect";
 import dcentwallet from "./dcentwallet";
 import bitski from "./bitski";
 import frame from "./frame";
+import binancewallet from './binancewallet';
+import metamask from './metamask'
 
 export {
   injected,
@@ -23,5 +25,7 @@ export {
   mewconnect,
   dcentwallet,
   bitski,
-  frame
+  frame,
+  binancewallet,
+  metamask,
 };

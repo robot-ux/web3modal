@@ -42,7 +42,8 @@ export const METAMASK: IProviderInfo = {
   name: "MetaMask",
   logo: MetaMaskLogo,
   type: "injected",
-  check: "isMetaMask"
+  check: "isMetaMask",
+  link: 'https://metamask.io/download.html',
 };
 
 export const SAFE: IProviderInfo = {
