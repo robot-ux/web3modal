@@ -1,6 +1,6 @@
 {
   "name": "@actool/web3modal",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "description": "A single Web3 / Ethereum provider solution for all Wallets",
   "keywords": [
     "web3",
@@ -29,6 +29,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "homepage": "https://github.com/web3modal/web3modal",
   "repository": {
     "type": "git",
