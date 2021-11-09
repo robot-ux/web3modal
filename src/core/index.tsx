@@ -68,12 +68,12 @@ export class Core {
 
   // --------------- PUBLIC METHODS --------------- //
 
-  public connect = (): Promise<any> =>
+  public connect = (noCache?: boolean): Promise<any> =>
     new Promise(async (resolve, reject) => {
       this.on(CONNECT_EVENT, provider => resolve(provider));
       this.on(ERROR_EVENT, error => reject(error));
       this.on(CLOSE_EVENT, () => reject("Modal closed by user"));
-      await this.toggleModal();
+      await this.toggleModal(noCache);
     });
 
   public connectTo = (id: string): Promise<any> =>
@@ -92,8 +92,8 @@ export class Core {
       await this.providerController.connectTo(provider.id, provider.connector);
     });
 
-  public async toggleModal(): Promise<void> {
-    if (this.cachedProvider) {
+  public async toggleModal(noCache?: boolean): Promise<void> {
+    if (this.cachedProvider && !noCache) {
       await this.providerController.connectToCachedProvider();
       return;
     }
@@ -106,6 +106,14 @@ export class Core {
       return;
     }
     await this._toggleModal();
+  }
+
+  public async reconnect(): Promise<any> {
+    return this.connect(true);
+  }
+
+  public disconnect() {
+    this.clearCachedProvider();
   }
 
   public on(event: string, callback: SimpleFunction): SimpleFunction {
