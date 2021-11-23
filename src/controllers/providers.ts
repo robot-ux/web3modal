@@ -24,7 +24,7 @@ import {
 import { EventController } from "./events";
 
 export class ProviderController {
-  public cachedProvider: string = "";
+  public _cachedProvider: string = "";
   public shouldCacheProvider: boolean = false;
   public disableInjectedProvider: boolean = true;
 
@@ -33,6 +33,23 @@ export class ProviderController {
   private providers: IProviderDisplayWithConnector[] = [];
   private providerOptions: IProviderOptions;
   private network: string = "";
+
+  get cachedProvider() {
+    const provider = this.getProvider(this._cachedProvider);
+    if (typeof provider !== 'undefined') {
+      const userProvider = this.providerOptions[this._cachedProvider];
+      if (userProvider && !userProvider.package) {
+        this.clearCachedProvider();
+        return '';
+      }
+      return this._cachedProvider;
+    }
+
+    return this._cachedProvider;
+  }
+  set cachedProvider(val: string) {
+    this._cachedProvider = val;
+  }
 
   constructor(opts: IProviderControllerOptions) {
     this.cachedProvider = getLocal(CACHED_PROVIDER_KEY) || "";

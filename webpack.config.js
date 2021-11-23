@@ -1,18 +1,27 @@
+/**
+ * @eslint-disable
+ */
 const path = require("path");
 
+const isDev = process.env.NODE_ENV === 'development';
+
 module.exports = {
-  mode: "production",
+  mode: process.env.NODE_ENV || "production",
   entry: {
     index: "./src/index.ts"
   },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
-    libraryTarget: "umd",
+    libraryTarget: isDev ? "commonjs2": 'umd',
     library: "Web3Modal",
     umdNamedDefine: true,
     globalObject: "this"
   },
+  externals: isDev ? {
+    'react': 'react',
+    'react-dom': 'react-dom'
+  } : {},
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
   },
