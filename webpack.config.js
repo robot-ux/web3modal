@@ -3,8 +3,6 @@
  */
 const path = require("path");
 
-const isDev = process.env.NODE_ENV === 'development';
-
 module.exports = {
   mode: process.env.NODE_ENV || "production",
   entry: {
@@ -13,15 +11,13 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
-    libraryTarget: isDev ? "commonjs2": 'umd',
+    libraryTarget: "commonjs2",
     library: "Web3Modal",
-    umdNamedDefine: true,
-    globalObject: "this"
   },
-  externals: isDev ? {
+  externals: {
     'react': 'react',
     'react-dom': 'react-dom'
-  } : {},
+  },
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
   },
