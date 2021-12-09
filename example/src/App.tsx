@@ -111,6 +111,23 @@ const STestButton = styled(Button)`
   margin: 12px;
 `;
 
+// const StyledDisclaimer = styled.div`
+//   border-radius: 8px;
+//   margin: 10px;
+//   padding: 10px;
+//   background-color: "#000";
+//   font-size: 14px;
+//   color: "#fff";
+//   text-align: left;
+//   a {
+//     color: "#0078ef";
+
+//     &:hover {
+//       text-decoration: underline;
+//     }
+//   }
+// `;
+
 interface IAppState {
   fetching: boolean;
   address: string;
@@ -169,7 +186,18 @@ class App extends React.Component<any, any> {
     this.web3Modal = new Web3Modal({
       network: this.getNetwork(),
       cacheProvider: true,
-      providerOptions: this.getProviderOptions()
+      providerOptions: this.getProviderOptions(),
+      renderDisclaimer: () => (
+        <div className="m-protocol-disclaimer">
+          Connect Wallet means you confirm that you have read and understood
+          Web3’s{" "}
+          <a href="/disclaimer" target="_blank">
+            Protocol Disclaimer
+          </a>
+          .
+        </div>
+      ),
+      theme: "light"
     });
   }
 
@@ -233,31 +261,37 @@ class App extends React.Component<any, any> {
 
   public getProviderOptions = () => {
     const providerOptions = {
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          infuraId: process.env.REACT_APP_INFURA_ID
-        }
+      binancewallet: {
+        package: window.BinanceChain
       },
-      torus: {
-        package: Torus
-      },
-      fortmatic: {
-        package: Fortmatic,
-        options: {
-          key: process.env.REACT_APP_FORTMATIC_KEY
-        }
-      },
-      authereum: {
-        package: Authereum
-      },
-      bitski: {
-        package: Bitski,
-        options: {
-          clientId: process.env.REACT_APP_BITSKI_CLIENT_ID,
-          callbackUrl: window.location.href + "bitski-callback.html"
-        }
+      metamask: {
+        package: window.ethereum
       }
+      // walletconnect: {
+      //   package: WalletConnectProvider,
+      //   options: {
+      //     infuraId: process.env.REACT_APP_INFURA_ID
+      //   }
+      // },
+      // torus: {
+      //   package: Torus
+      // },
+      // fortmatic: {
+      //   package: Fortmatic,
+      //   options: {
+      //     key: process.env.REACT_APP_FORTMATIC_KEY
+      //   }
+      // },
+      // authereum: {
+      //   package: Authereum
+      // },
+      // bitski: {
+      //   package: Bitski,
+      //   options: {
+      //     clientId: process.env.REACT_APP_BITSKI_CLIENT_ID,
+      //     callbackUrl: window.location.href + "bitski-callback.html"
+      //   }
+      // }
     };
     return providerOptions;
   };

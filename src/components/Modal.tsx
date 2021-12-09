@@ -88,12 +88,35 @@ interface IModalCardStyleProps {
   maxWidth?: number;
 }
 
+const SModalCardWrapper = styled.div<IModalCardStyleProps>`
+  position: relative;
+  max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}px` : "800px")};
+  border-radius: 12px;
+  background-color: ${({ themeColors }) => themeColors.background};
+  overflow: auto;
+
+  .m-protocol-disclaimer {
+    border-radius: 8px;
+    margin: 10px;
+    padding: 10px;
+    background-color: ${({ themeColors }) => themeColors.border};
+    font-size: 14px;
+    color: ${({ themeColors }) => themeColors.main};
+    text-align: left;
+    a {
+      color: ${({ themeColors }) => themeColors.danger};
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+`;
+
 const SModalCard = styled.div<IModalCardStyleProps>`
   position: relative;
   width: 100%;
   background-color: ${({ themeColors }) => themeColors.background};
-  border-radius: 12px;
-  margin: 10px;
   padding: 0;
   opacity: ${({ show }) => (show ? 1 : 0)};
   visibility: ${({ show }) => (show ? "visible" : "hidden")};
@@ -104,7 +127,6 @@ const SModalCard = styled.div<IModalCardStyleProps>`
   max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}px` : "800px")};
   min-width: fit-content;
   max-height: 100%;
-  overflow: auto;
 
   @media screen and (max-width: 768px) {
     max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}px` : "500px")};
@@ -118,6 +140,7 @@ interface IModalProps {
   onClose: SimpleFunction;
   resetState: SimpleFunction;
   lightboxOpacity: number;
+  renderDisclaimer: (props: { themeColors: ThemeColors }) => React.ReactNode;
 }
 
 interface IModalState {
@@ -171,7 +194,7 @@ export class Modal extends React.Component<IModalProps, IModalState> {
   public render = () => {
     const { show, lightboxOffset } = this.state;
 
-    const { onClose, lightboxOpacity, userOptions, themeColors } = this.props;
+    const { onClose, lightboxOpacity, userOptions, themeColors, renderDisclaimer} = this.props;
 
     return (
       <SLightbox
@@ -183,22 +206,27 @@ export class Modal extends React.Component<IModalProps, IModalState> {
       >
         <SModalContainer className={MODAL_CONTAINER_CLASSNAME} show={show}>
           <SHitbox className={MODAL_HITBOX_CLASSNAME} onClick={onClose} />
-          <SModalCard
-            className={MODAL_CARD_CLASSNAME}
+          <SModalCardWrapper
             show={show}
             themeColors={themeColors}
             maxWidth={userOptions.length < 3 ? 356 : 700}
-            ref={c => (this.mainModalCard = c)}
           >
-            {userOptions.map(provider =>
-              !!provider ? (
-                <Provider
-                  themeColors={themeColors}
-                  provider={provider}
-                />
-              ) : null
-            )}
-          </SModalCard>
+            { renderDisclaimer && renderDisclaimer({ themeColors }) }
+
+            <SModalCard
+              className={MODAL_CARD_CLASSNAME}
+              show={show}
+              themeColors={themeColors}
+              maxWidth={userOptions.length < 3 ? 356 : 700}
+              ref={c => (this.mainModalCard = c)}
+            >
+              {userOptions.map(provider =>
+                !!provider ? (
+                  <Provider themeColors={themeColors} provider={provider} />
+                ) : null
+              )}
+            </SModalCard>
+          </SModalCardWrapper>
         </SModalContainer>
       </SLightbox>
     );

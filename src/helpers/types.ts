@@ -1,6 +1,8 @@
+import React from "react";
 export interface ICoreOptions extends IProviderControllerOptions {
   lightboxOpacity: number;
   theme: string | ThemeColors;
+  renderDisclaimer: () => React.ReactNode;
 }
 
 export interface IProviderControllerOptions {

@@ -8,7 +8,7 @@ const lightTheme: IThemeConfig = {
     secondary: "rgb(169, 169, 188)",
     border: "rgba(195, 195, 195, 0.14)",
     hover: "rgba(158, 0, 255, 0.1)",
-    danger: "#9E00FF",
+    danger: "#9E00FF"
   }
 };
 

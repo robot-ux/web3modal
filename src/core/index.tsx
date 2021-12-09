@@ -26,7 +26,8 @@ const defaultOpts: ICoreOptions = {
   cacheProvider: false,
   disableInjectedProvider: true,
   providerOptions: {},
-  network: ""
+  network: "",
+  renderDisclaimer: () => <></>,
 };
 
 export class Core {
@@ -36,6 +37,7 @@ export class Core {
   private lightboxOpacity: number;
   private providerController: ProviderController;
   private userOptions: IProviderUserOptions[];
+  private renderDisclaimer: () => React.ReactNode = defaultOpts.renderDisclaimer;
 
   constructor(opts?: Partial<ICoreOptions>) {
     const options: ICoreOptions = {
@@ -45,6 +47,7 @@ export class Core {
 
     this.lightboxOpacity = options.lightboxOpacity;
     this.themeColors = getThemeColors(options.theme);
+    this.renderDisclaimer = options.renderDisclaimer;
 
     this.providerController = new ProviderController({
       disableInjectedProvider: options.disableInjectedProvider,
@@ -163,6 +166,7 @@ export class Core {
         onClose={this.onClose}
         resetState={this.resetState}
         lightboxOpacity={this.lightboxOpacity}
+        renderDisclaimer={this.renderDisclaimer}
       />,
       document.getElementById(WEB3_CONNECT_MODAL_ID)
     );

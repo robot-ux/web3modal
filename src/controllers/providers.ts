@@ -36,11 +36,11 @@ export class ProviderController {
 
   get cachedProvider() {
     const provider = this.getProvider(this._cachedProvider);
-    if (typeof provider !== 'undefined') {
+    if (typeof provider !== "undefined") {
       const userProvider = this.providerOptions[this._cachedProvider];
       if (userProvider && !userProvider.package) {
         this.clearCachedProvider();
-        return '';
+        return "";
       }
       return this._cachedProvider;
     }
@@ -143,8 +143,7 @@ export class ProviderController {
 
     const providerPackageOptions = this.providerOptions[id];
     if (providerPackageOptions && !providerPackageOptions.package) {
-      return `Install ${provider.name ||
-        "Wallet Extension"} to your browser`;
+      return `Install ${provider.name || "Wallet Extension"} to your browser`;
     }
 
     const requiredOptions = provider.package ? provider.package.required : null;
