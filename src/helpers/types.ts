@@ -1,8 +1,13 @@
-import React from "react";
+
+
+export interface IRenderDisclaimer {
+  themeColors: ThemeColors;
+}
 export interface ICoreOptions extends IProviderControllerOptions {
   lightboxOpacity: number;
   theme: string | ThemeColors;
-  renderDisclaimer: () => React.ReactNode;
+  // eslint-disable-next-line no-undef
+  renderDisclaimer: (props: IRenderDisclaimer) => React.ReactNode;
 }
 
 export interface IProviderControllerOptions {

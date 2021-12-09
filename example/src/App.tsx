@@ -111,22 +111,22 @@ const STestButton = styled(Button)`
   margin: 12px;
 `;
 
-// const StyledDisclaimer = styled.div`
-//   border-radius: 8px;
-//   margin: 10px;
-//   padding: 10px;
-//   background-color: "#000";
-//   font-size: 14px;
-//   color: "#fff";
-//   text-align: left;
-//   a {
-//     color: "#0078ef";
+const StyledDisclaimer = styled.div<{ themeColors: Object }>`
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+  background-color: "#000";
+  font-size: 14px;
+  color: "#fff";
+  text-align: left;
+  a {
+    color: "#0078ef";
 
-//     &:hover {
-//       text-decoration: underline;
-//     }
-//   }
-// `;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
 
 interface IAppState {
   fetching: boolean;
@@ -183,19 +183,21 @@ class App extends React.Component<any, any> {
       ...INITIAL_STATE
     };
 
+    console.log('Web3Modal....', Web3Modal)
+
     this.web3Modal = new Web3Modal({
       network: this.getNetwork(),
       cacheProvider: true,
       providerOptions: this.getProviderOptions(),
-      renderDisclaimer: () => (
-        <div className="m-protocol-disclaimer">
+      renderDisclaimer: ({ themeColors }): React.ReactNode => (
+        <StyledDisclaimer themeColors={themeColors}>
           Connect Wallet means you confirm that you have read and understood
           Web3’s{" "}
           <a href="/disclaimer" target="_blank">
             Protocol Disclaimer
           </a>
           .
-        </div>
+        </StyledDisclaimer>
       ),
       theme: "light"
     });

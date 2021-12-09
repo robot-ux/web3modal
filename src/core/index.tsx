@@ -17,6 +17,7 @@ import {
 import { themesList } from "../themes";
 import { Modal } from "../components";
 import { EventController, ProviderController } from "../controllers";
+import { IRenderDisclaimer } from '../../dist/helpers/types';
 
 const INITIAL_STATE = { show: false };
 
@@ -27,7 +28,7 @@ const defaultOpts: ICoreOptions = {
   disableInjectedProvider: true,
   providerOptions: {},
   network: "",
-  renderDisclaimer: () => <></>,
+  renderDisclaimer: (props: IRenderDisclaimer) => <></>,
 };
 
 export class Core {
@@ -37,7 +38,7 @@ export class Core {
   private lightboxOpacity: number;
   private providerController: ProviderController;
   private userOptions: IProviderUserOptions[];
-  private renderDisclaimer: () => React.ReactNode = defaultOpts.renderDisclaimer;
+  private renderDisclaimer: (props: IRenderDisclaimer) => React.ReactNode = defaultOpts.renderDisclaimer;
 
   constructor(opts?: Partial<ICoreOptions>) {
     const options: ICoreOptions = {
